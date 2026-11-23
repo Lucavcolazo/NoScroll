@@ -1,0 +1,151 @@
+:root {
+  --bg: #FFF8F1;
+  --card: #FFFFFF;
+  --text: #2B1D14;
+  --muted: #8A7566;
+  --line: #F0E2D4;
+  --accent: #E8833A;
+  --accent-dark: #C9692A;
+  --fur: #E8833A;
+  --fur-light: #F0974A;
+  --stripe: #C9692A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1C1612;
+    --card: #2A211B;
+    --text: #F7ECE2;
+    --muted: #B09C8C;
+    --line: #3A2E25;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  width: 300px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.4 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+main { padding: 16px; }
+
+.hero { text-align: center; }
+
+.cat { width: 120px; height: auto; display: block; margin: 0 auto; }
+
+/* Estados del gato */
+.eyes-awake { display: none; }
+body.on .eyes-awake { display: inline; }
+body.on .eyes-sleep { display: none; }
+
+.zzz {
+  font: 700 16px -apple-system, system-ui, sans-serif;
+  fill: var(--muted);
+  animation: float 2.4s ease-in-out infinite;
+}
+.zzz.z2 { font-size: 12px; animation-delay: .6s; }
+body.on .zzz { display: none; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); opacity: .4; }
+  50% { transform: translateY(-4px); opacity: 1; }
+}
+
+body.on .cat { animation: alert .5s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes alert { from { transform: scale(.9) translateY(4px); } }
+
+.status { margin: 6px 0 12px; font-weight: 600; color: var(--muted); }
+body.on .status { color: var(--accent); }
+
+.toggle {
+  width: 100%;
+  padding: 11px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.toggle:hover { background: var(--accent-dark); }
+.toggle:active { transform: scale(.98); }
+body.on .toggle { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+
+.count { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+#count { font-weight: 700; color: var(--text); }
+
+.sites {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+
+.add { display: flex; gap: 6px; }
+
+.add input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+}
+.add input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+.add button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--text);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#site-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+#site-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px 6px 10px;
+  border-radius: 8px;
+}
+#site-list li:hover { background: var(--card); }
+
+#site-list .remove {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#site-list .remove:hover { color: var(--accent); background: var(--line); }
+
+.empty { color: var(--muted); font-size: 12px; padding: 6px 10px; }
