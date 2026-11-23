@@ -15,8 +15,8 @@ async function getState() {
 
 function render({ enabled, sites, closedCount }) {
   document.body.classList.toggle("on", enabled);
-  $("status").textContent = enabled ? "Vigilando tus pestañas 👀" : "Durmiendo… zzz";
-  $("toggle").textContent = enabled ? "Dormir al gatito" : "Despertar al gatito";
+  $("status").textContent = enabled ? "Vigilando tus pestañas" : "Durmiendo";
+  $("toggle").textContent = enabled ? "Desactivar" : "Activar";
   $("count").textContent = closedCount;
 
   const list = $("site-list");
@@ -24,7 +24,7 @@ function render({ enabled, sites, closedCount }) {
   if (!sites.length) {
     const li = document.createElement("li");
     li.className = "empty";
-    li.textContent = "No hay sitios. El gato se aburre.";
+    li.textContent = "No hay sitios. La bolita se aburre.";
     list.append(li);
     return;
   }
@@ -59,6 +59,19 @@ $("add-form").addEventListener("submit", async (e) => {
   if (!sites.includes(site)) await chrome.storage.local.set({ sites: [...sites, site] });
   $("site-input").value = "";
 });
+
+// Los ojos siguen al mouse mientras está despierta
+document.addEventListener("mousemove", (e) => {
+  if (!document.body.classList.contains("on")) return;
+  const r = $("ball").getBoundingClientRect();
+  const dx = e.clientX - (r.left + r.width / 2);
+  const dy = e.clientY - (r.top + r.height * 0.48);
+  const len = Math.hypot(dx, dy) || 1;
+  const reach = Math.min(len / 120, 1);
+  $("eyes").style.transform =
+    `translate(${(dx / len) * 24 * reach}px, ${(dy / len) * 18 * reach}px)`;
+});
+document.addEventListener("mouseleave", () => { $("eyes").style.transform = ""; });
 
 chrome.storage.onChanged.addListener(async (_changes, area) => {
   if (area === "local") render(await getState());
